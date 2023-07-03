@@ -241,22 +241,22 @@ function App() {
   }
 
   // Fetch data on first APP mount
-  useEffect(function () {
-    async function getData() {
-      try {
-        const apiData = await API.graphql({
-          query: listQuestions,
-          authMode: "AWS_IAM",
-        });
-        const questionsFromAPI = apiData.data.listQuestions.items;
-        dispatch({ type: "dataRecieved", payload: questionsFromAPI });
-      } catch (err) {
-        console.error(err.message);
-        dispatch({ type: "dataFailed", payload: err.message });
-      }
-    }
-    getData();
-  }, []);
+  // useEffect(function () {
+  //   async function getData() {
+  //     try {
+  //       const apiData = await API.graphql({
+  //         query: listQuestions,
+  //         // authMode: "AWS_IAM",
+  //       });
+  //       const questionsFromAPI = apiData.data.listQuestions.items;
+  //       dispatch({ type: "dataRecieved", payload: questionsFromAPI });
+  //     } catch (err) {
+  //       console.error(err);
+  //       dispatch({ type: "dataFailed", payload: err.message });
+  //     }
+  //   }
+  //   getData();
+  // }, []);
 
   return (
     // Authenticator
@@ -301,19 +301,17 @@ function App() {
             </>
 
             <Main>
-              {/* Loading, Error, Ready, Status */}
-              {status === "loading" && <Loader msg="Loading Questions..." />}
-              {status === "error" && <Error msg={errorMsg} />}
-              {status === "ready" && (
-                <>
-                  <StartScreen
-                    numQuestions={questions.length}
-                    dispatch={dispatch}
-                    user={user}
-                    userData={userData}
-                  />
-                </>
-              )}
+              <>
+                <StartScreen
+                  errorMsg={errorMsg}
+                  status={status}
+                  numQuestions={questions.length}
+                  dispatch={dispatch}
+                  user={user}
+                  userData={userData}
+                />
+              </>
+
               {/* Quiz Loop */}
               {status === "active" && (
                 <>
