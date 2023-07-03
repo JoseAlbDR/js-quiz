@@ -1,28 +1,12 @@
 import SelectOption from "./SelectOption";
-import { getUser } from "../script/userQueries";
 import { useEffect } from "react";
 import { listQuestions } from "../graphql/queries";
 import { API } from "aws-amplify";
 import Loader from "./Loader";
 import Error from "./Error";
+import { useLoadUser } from "../hooks/useLoadUser";
 function StartScreen({ status, numQuestions, dispatch, user, errorMsg }) {
-  useEffect(
-    function () {
-      async function loadUser() {
-        try {
-          dispatch({ type: "loadingUser", payload: true });
-          const currentUser = await getUser(user);
-          dispatch({ type: "loadUser", payload: currentUser });
-        } catch (err) {
-          console.log(err);
-        } finally {
-          dispatch({ type: "loadingUser", payload: false });
-        }
-      }
-      loadUser();
-    },
-    [user, dispatch]
-  );
+  useLoadUser(dispatch, user);
 
   useEffect(
     function () {
