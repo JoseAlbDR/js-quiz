@@ -25,12 +25,11 @@ import {
   ThemeProvider,
   defaultTheme,
   AccountSettings,
-  withAuthenticator,
 } from "@aws-amplify/ui-react";
 import { API } from "aws-amplify";
 import { listQuestions } from "../graphql/queries";
 import PostQuestionForm from "./PostQuestionForm";
-import { components, Theme } from "../script/authStyle";
+import { components } from "../script/authStyle";
 import { updateUser } from "../script/userQueries";
 import Stadistics from "./Stadistics";
 import { handleDeleteUser, handleSignOut } from "../script/eventHandlers";
@@ -199,7 +198,6 @@ function reducer(state, action) {
 }
 
 function App() {
-  // return <p>App</p>;
   const [state, dispatch] = useReducer(reducer, initialState);
   const {
     questions,
@@ -248,12 +246,10 @@ function App() {
   useEffect(function () {
     async function getData() {
       try {
-        // if (!user) return;
         const apiData = await API.graphql({ query: listQuestions });
         const questionsFromAPI = apiData.data.listQuestions.items;
         dispatch({ type: "dataRecieved", payload: questionsFromAPI });
       } catch (err) {
-        if (err.message === "No current user") return;
         console.error(err.message);
         dispatch({ type: "dataFailed", payload: err.message });
       }
