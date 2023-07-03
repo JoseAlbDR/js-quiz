@@ -1,5 +1,4 @@
 function Stadistics({ userData }) {
-  // console.log(userData);
   const correctPercentage = Math.round(
     (userData.correct / userData.total) * 100,
     2
