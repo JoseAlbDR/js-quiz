@@ -7,7 +7,6 @@ function FinishScreen({
   highScore,
   failedQuestions,
   user,
-  loadingUser,
 }) {
   useEffect(
     function () {
@@ -16,11 +15,10 @@ function FinishScreen({
           dispatch({ type: "loadingUser", payload: true });
           const currentUser = await getUser(user);
           dispatch({ type: "loadUser", payload: currentUser });
-          setTimeout(function () {
-            dispatch({ type: "loadingUser", payload: false });
-          }, 2000);
         } catch (err) {
           console.log(err);
+        } finally {
+          dispatch({ type: "loadingUser", payload: false });
         }
       }
       loadUser();

@@ -13,9 +13,10 @@ function StartScreen({ status, numQuestions, dispatch, user, errorMsg }) {
           dispatch({ type: "loadingUser", payload: true });
           const currentUser = await getUser(user);
           dispatch({ type: "loadUser", payload: currentUser });
-          dispatch({ type: "loadingUser", payload: false });
         } catch (err) {
           console.log(err);
+        } finally {
+          dispatch({ type: "loadingUser", payload: false });
         }
       }
       loadUser();
