@@ -248,10 +248,12 @@ function App() {
   useEffect(function () {
     async function getData() {
       try {
+        // if (!user) return;
         const apiData = await API.graphql({ query: listQuestions });
         const questionsFromAPI = apiData.data.listQuestions.items;
         dispatch({ type: "dataRecieved", payload: questionsFromAPI });
       } catch (err) {
+        if (err.message === "No current user") return;
         console.error(err.message);
         dispatch({ type: "dataFailed", payload: err.message });
       }
@@ -262,7 +264,7 @@ function App() {
   return (
     // Authenticator
     <ThemeProvider theme={defaultTheme}>
-      <Authenticator>
+      <Authenticator components={components}>
         {({ signOut, user }) => (
           <div className="app">
             <>
@@ -410,4 +412,4 @@ function App() {
   );
 }
 
-export default withAuthenticator(App);
+export default App;
