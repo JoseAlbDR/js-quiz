@@ -144,10 +144,10 @@ function reducer(state, action) {
           state.score > state.highScore ? state.score : state.highScore,
         userData: state.userData,
         loadingUser: false,
+        remainSeconds: null,
       };
     // Reset button
     case "restart":
-      updateUser(state.userData, state.userData);
       return {
         ...initialState,
         status: "ready",
