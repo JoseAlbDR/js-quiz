@@ -15,6 +15,6 @@ export const handleDeleteUser = async (user) => {
 };
 
 export function handleSignOut(signOut, dispatch) {
+  dispatch({ type: "signOut" });
   signOut();
-  dispatch({ type: "restart" });
 }
