@@ -71,8 +71,6 @@ function reducer(state, action) {
         status: "ready",
       };
     case "loadUser":
-      // console.log(action.payload);
-      // console.log(action.payload);
       return {
         ...state,
         userData: action.payload,
