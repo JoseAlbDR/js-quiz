@@ -14,7 +14,7 @@ import Timer from "./Timer";
 import { Amplify } from "aws-amplify";
 import config from "../aws-exports";
 import "@aws-amplify/ui-react/styles.css";
-// import { createQuestion as createQuestionMutation } from "../graphql/mutations";
+import { createQuestion as createQuestionMutation } from "../graphql/mutations";
 import {
   Authenticator,
   Button,
@@ -28,7 +28,7 @@ import {
   withAuthenticator,
 } from "@aws-amplify/ui-react";
 import { API } from "aws-amplify";
-// import { listQuestions } from "../graphql/queries";
+import { listQuestions } from "../graphql/queries";
 import PostQuestionForm from "./PostQuestionForm";
 import { components, Theme } from "../script/authStyle";
 import { updateUser } from "../script/userQueries";
@@ -218,46 +218,46 @@ function App() {
     loadingUser,
   } = state;
 
-  // // AddQuestion to DB
-  // async function addQuestion(event) {
-  //   event.preventDefault();
-  //   const form = new FormData(event.target);
-  //   const data = {
-  //     question: form.get("question"),
-  //     code: form.get("code"),
-  //     options: [
-  //       form.get("option1"),
-  //       form.get("option2"),
-  //       form.get("option3"),
-  //       form.get("option4"),
-  //     ],
-  //     correctOption: +form.get("correctOption"),
-  //     points: 10,
-  //     answer: form.get("answer"),
-  //   };
+  // AddQuestion to DB
+  async function addQuestion(event) {
+    event.preventDefault();
+    const form = new FormData(event.target);
+    const data = {
+      question: form.get("question"),
+      code: form.get("code"),
+      options: [
+        form.get("option1"),
+        form.get("option2"),
+        form.get("option3"),
+        form.get("option4"),
+      ],
+      correctOption: +form.get("correctOption"),
+      points: 10,
+      answer: form.get("answer"),
+    };
 
-  //   await API.graphql({
-  //     query: createQuestionMutation,
-  //     variables: { input: data },
-  //   });
+    await API.graphql({
+      query: createQuestionMutation,
+      variables: { input: data },
+    });
 
-  //   event.target.reset();
-  // }
+    event.target.reset();
+  }
 
-  // // Fetch data on first APP mount
-  // useEffect(function () {
-  //   async function getData() {
-  //     try {
-  //       const apiData = await API.graphql({ query: listQuestions });
-  //       const questionsFromAPI = apiData.data.listQuestions.items;
-  //       dispatch({ type: "dataRecieved", payload: questionsFromAPI });
-  //     } catch (err) {
-  //       console.error(err.message);
-  //       dispatch({ type: "dataFailed", payload: err.message });
-  //     }
-  //   }
-  //   getData();
-  // }, []);
+  // Fetch data on first APP mount
+  useEffect(function () {
+    async function getData() {
+      try {
+        const apiData = await API.graphql({ query: listQuestions });
+        const questionsFromAPI = apiData.data.listQuestions.items;
+        dispatch({ type: "dataRecieved", payload: questionsFromAPI });
+      } catch (err) {
+        console.error(err.message);
+        dispatch({ type: "dataFailed", payload: err.message });
+      }
+    }
+    getData();
+  }, []);
 
   return (
     // Authenticator
@@ -296,9 +296,9 @@ function App() {
             <Header />
             <>
               {/* Add question Form for admin user */}
-              {/* {user.username === "admin" && (
+              {user.username === "admin" && (
                 <PostQuestionForm addQuestion={addQuestion} />
-              )} */}
+              )}
             </>
 
             <Main>

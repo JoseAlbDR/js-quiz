@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "jsquiz",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authjsquiz67edfe0e",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

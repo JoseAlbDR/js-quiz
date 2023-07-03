@@ -1,0 +1,25 @@
+type Question
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID!
+  question: String!
+  code: String
+  options: [String!]
+  correctOption: Int!
+  points: Int!
+  answer: String!
+}
+
+type User @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  name: String!
+  wrong: Int!
+  correct: Int!
+  total: Int!
+  maxScore: Int!
+}
