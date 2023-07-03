@@ -1,70 +1,62 @@
-# Getting Started with Create React App
+# NEW REPO OLD WITH CHANGES BEFORE USING COGNITO USER POOL AT AT [JS-QUIZ NEW REPU](https://github.com/JoseAlbDR/amplify-jsquiz)
+## Quiz App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a quiz application built with React. It allows users to answer questions and tracks their scores. The application fetches questions from an API and presents them to the user in a randomized order. Users can choose the number of questions and the difficulty level of the quiz.
 
-## Available Scripts
+### Installation
 
-In the project directory, you can run:
+To run the Quiz App locally, follow these steps:
 
-### `npm start`
+1. Clone the repository: `git clone <repository-url>`
+2. Navigate to the project directory: `cd quiz-app`
+3. Install the dependencies: `npm install`
+4. Start the development server: `npm start`
+5. Open your browser and visit http://localhost:3000
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Dependencies
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The Quiz App uses the following dependencies:
 
-### `npm test`
+- React: A JavaScript library for building user interfaces.
+- aws-amplify: A library for integrating AWS services with the application.
+- @aws-amplify/ui-react: UI components provided by AWS Amplify for building the user interface.
+- react-router-dom: A library for routing within a React application.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### File Structure
 
-### `npm run build`
+The main files and directories in the project are structured as follows:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- `src/components`: Contains all the reusable components used in the application.
+- `src/aws-exports.js`: Configuration file for AWS Amplify.
+- `src/graphql`: Contains GraphQL mutation and query definitions.
+- `src/script`: Contains script files for handling authentication and user queries.
+- `src/App.js`: Main component that renders the entire application.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Usage
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The Quiz App has the following features:
 
-### `npm run eject`
+- User authentication with AWS Amplify.
+- Fetching questions from an API using GraphQL.
+- Start screen where the user can set the number of questions and difficulty level.
+- Timer to track the remaining time for the quiz.
+- Progress bar to show the current question number and score.
+- Question component to display the current question and options.
+- Buttons to navigate to the next/previous question.
+- Finish screen to display the final score and allow the user to restart the quiz.
+- Admin user functionality to add new questions.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- In the **APP**, you must create an account by providing a verification code sent to the email you entered in the form. Once logged in, it will display your username along with the options to **Logout** or **Delete** the user and your statistics.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- On the welcome screen, it will show the total number of questions currently in the **Database** (103 as of the time of this publication) and then give you the option to choose the number of questions you want to answer (10, 20, or 30) and the difficulty level, based on the time you have to answer each question (60s/question for **Easy**, 45s/question for **Normal**, 30s/question for **Hard**).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Once you start the **Quiz**, currently, the only way to exit is to either finish it or click **Logout**. When you click on an answer, the **Next** button will appear to proceed to the next question, and you won't be able to change your answer. To save your statistics, you need to finish the quiz.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- On the **Completion** screen, after finishing a quiz, it will display the number of questions answered correctly and your score. On the same screen, you can click the **Review** button to go over the questions you answered incorrectly. In **Review** mode, it will show the incorrect and correct answers, and you can click **Answer** to see the explanation for the correct answer.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Credits
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The Quiz App is developed by J.Alberto Delgado.
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Original idea from Jonas Schmedtmann
