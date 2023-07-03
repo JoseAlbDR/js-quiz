@@ -15,13 +15,10 @@ function FinishScreen({
         try {
           dispatch({ type: "loadingUser", payload: true });
           const currentUser = await getUser(user);
-          setTimeout(function () {
-            dispatch({ type: "loadUser", payload: currentUser });
-          }, 1000);
+          dispatch({ type: "loadUser", payload: currentUser });
           setTimeout(function () {
             dispatch({ type: "loadingUser", payload: false });
-          }, 1500);
-          // dispatch({ type: "loadingUser", payload: false });
+          }, 2000);
         } catch (err) {
           console.log(err);
         }
