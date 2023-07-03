@@ -2,7 +2,7 @@ type Question
   @model
   @auth(
     rules: [
-      { allow: private, operations: [read] }
+      { allow: public, operations: [read], provider: iam }
       { allow: groups, groups: ["Admin"] }
     ]
   ) {

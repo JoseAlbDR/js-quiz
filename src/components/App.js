@@ -244,7 +244,10 @@ function App() {
   useEffect(function () {
     async function getData() {
       try {
-        const apiData = await API.graphql({ query: listQuestions });
+        const apiData = await API.graphql({
+          query: listQuestions,
+          authMode: "AWS_IAM",
+        });
         const questionsFromAPI = apiData.data.listQuestions.items;
         dispatch({ type: "dataRecieved", payload: questionsFromAPI });
       } catch (err) {
