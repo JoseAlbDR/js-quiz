@@ -3,7 +3,7 @@ import Main from "./Main";
 import Loader from "./Loader";
 import Error from "./Error";
 import Question from "./Question";
-import { useEffect, useReducer } from "react";
+import { useReducer } from "react";
 import StartScreen from "./StartScreen";
 import NextButton from "./NextButton";
 import PrevButton from "./PrevButton";
@@ -27,7 +27,6 @@ import {
   AccountSettings,
 } from "@aws-amplify/ui-react";
 import { API } from "aws-amplify";
-import { listQuestions } from "../graphql/queries";
 import PostQuestionForm from "./PostQuestionForm";
 import { components } from "../script/authStyle";
 import { updateUser } from "../script/userQueries";
@@ -134,7 +133,6 @@ function reducer(state, action) {
         maxScore: highScore,
       };
 
-      // console.log(state.userData);
       if (!state.reviewQuestions) updateUser(state.userData, userData);
 
       return {
@@ -147,11 +145,14 @@ function reducer(state, action) {
       };
     // Reset button
     case "restart":
+      updateUser(state.userData, state.userData);
       return {
         ...initialState,
         status: "ready",
         questions: initialQuestions,
         reviewQuestions: false,
+        userData: state.userData,
+        loadingUser: false,
       };
     // timer
     case "tick":
@@ -184,12 +185,14 @@ function reducer(state, action) {
         ...state,
         curOpen: state.curOpen === action.payload ? null : action.payload,
       };
-
     case "loadingUser":
       return {
         ...state,
         loadingUser: action.payload,
       };
+    case "signOut":
+      return initialState;
+
     default:
       throw new Error("Unknow action.");
   }
@@ -239,24 +242,6 @@ function App() {
 
     event.target.reset();
   }
-
-  // Fetch data on first APP mount
-  // useEffect(function () {
-  //   async function getData() {
-  //     try {
-  //       const apiData = await API.graphql({
-  //         query: listQuestions,
-  //         // authMode: "AWS_IAM",
-  //       });
-  //       const questionsFromAPI = apiData.data.listQuestions.items;
-  //       dispatch({ type: "dataRecieved", payload: questionsFromAPI });
-  //     } catch (err) {
-  //       console.error(err);
-  //       dispatch({ type: "dataFailed", payload: err.message });
-  //     }
-  //   }
-  //   getData();
-  // }, []);
 
   return (
     // Authenticator
