@@ -125,7 +125,7 @@ function reducer(state, action) {
       const highScore =
         state.score > state.highScore ? state.score : state.highScore;
 
-      const userData = {
+      let userData = {
         name: action.payload,
         wrong: wrongQuestions,
         correct: correctQuestions,
@@ -134,6 +134,8 @@ function reducer(state, action) {
       };
 
       if (!state.reviewQuestions) updateUser(state.userData, userData);
+
+      userData = {};
 
       return {
         ...state,

@@ -7,7 +7,7 @@ function Stadistics({ userData }) {
     (userData.wrong / userData.total) * 100,
     2
   );
-
+  console.log(userData);
   return (
     <div>
       <p className="stadistics">
