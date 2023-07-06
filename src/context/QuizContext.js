@@ -1,4 +1,8 @@
 import { createContext, useReducer } from "react";
+import { API } from "aws-amplify";
+import { createQuestion as createQuestionMutation } from "../graphql/mutations";
+import { updateUser } from "../script/userQueries";
+import Error from "./Error";
 
 const QuizContext = createContext();
 
