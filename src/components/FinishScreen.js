@@ -1,12 +1,7 @@
+import { useQuiz } from "../context/QuizContext";
 import { useLoadUser } from "../hooks/useLoadUser";
-function FinishScreen({
-  score,
-  maxScore,
-  dispatch,
-  highScore,
-  failedQuestions,
-  user,
-}) {
+function FinishScreen({ highScore }) {
+  const { score, maxScore, dispatch, failedQuestions, user } = useQuiz();
   useLoadUser(dispatch, user);
 
   const percentaje = (score / maxScore) * 100;

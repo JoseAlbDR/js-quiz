@@ -1,4 +1,8 @@
-function Stadistics({ userData }) {
+import { useQuiz } from "../context/QuizContext";
+
+function Stadistics() {
+  const { userData } = useQuiz();
+  console.log(userData);
   const correctPercentage = Math.round(
     (userData.correct / userData.total) * 100,
     2
@@ -7,7 +11,7 @@ function Stadistics({ userData }) {
     (userData.wrong / userData.total) * 100,
     2
   );
-  console.log(userData);
+
   return (
     <div>
       <p className="stadistics">

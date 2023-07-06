@@ -5,7 +5,10 @@ import { API } from "aws-amplify";
 import Loader from "./Loader";
 import Error from "./Error";
 import { useLoadUser } from "../hooks/useLoadUser";
-function StartScreen({ status, numQuestions, dispatch, user, errorMsg }) {
+import { useQuiz } from "../context/QuizContext";
+function StartScreen() {
+  const { status, dispatch, user, errorMsg, totalQuestions } = useQuiz();
+
   useLoadUser(dispatch, user);
 
   useEffect(
@@ -17,6 +20,7 @@ function StartScreen({ status, numQuestions, dispatch, user, errorMsg }) {
             // authMode: "AWS_IAM",
           });
           const questionsFromAPI = apiData.data.listQuestions.items;
+          console.log(questionsFromAPI);
           dispatch({ type: "dataRecieved", payload: questionsFromAPI });
         } catch (err) {
           console.error(err);
@@ -36,7 +40,7 @@ function StartScreen({ status, numQuestions, dispatch, user, errorMsg }) {
         <div className="start">
           <h2 className="center">Welcome to The JavaScript QUIZ!</h2>
           <h3 className="center">
-            {numQuestions} question to test your JavaScript knowledge
+            {totalQuestions} question to test your JavaScript knowledge
           </h3>
           <div className="start-options">
             <SelectOption

@@ -14,99 +14,50 @@ import config from "../aws-exports";
 import "@aws-amplify/ui-react/styles.css";
 import {
   Authenticator,
-  Button,
-  Heading,
-  View,
-  Card,
-  Flex,
   ThemeProvider,
   defaultTheme,
-  AccountSettings,
 } from "@aws-amplify/ui-react";
 import PostQuestionForm from "./PostQuestionForm";
 import { components } from "../script/authStyle";
 import Stadistics from "./Stadistics";
-import { handleDeleteUser, handleSignOut } from "../script/eventHandlers";
 import Credits from "./Credits";
+import { useQuiz } from "../context/QuizContext";
+import Authentication from "./Authentication";
 
 Amplify.configure(config);
 
 function App() {
+  const {
+    loadingUser,
+    dispatch,
+    status,
+    answer,
+    currQuestion,
+    questions,
+    userData,
+    highScore,
+  } = useQuiz();
   return (
     // Authenticator
     <ThemeProvider theme={defaultTheme}>
       <Authenticator components={components}>
         {({ signOut, user }) => (
           <div className="app">
-            <>
-              <View className="App">
-                <Flex alignItems={"center"}>
-                  <Card>
-                    <Heading
-                      level={1}
-                      style={{ color: "white", marginBottom: "1rem" }}
-                    >
-                      Welcome {user.username}
-                    </Heading>
-                  </Card>
-
-                  <Button
-                    className="sign-out-btn"
-                    onClick={() => handleSignOut(signOut, dispatch)}
-                  >
-                    Sign Out
-                  </Button>
-                  <AccountSettings.DeleteUser
-                    onSuccess={() => handleDeleteUser(user)}
-                  />
-                </Flex>
-              </View>
-            </>
-
+            <Authentication user={user} signOut={signOut} />
             {loadingUser && <Loader msg="Loading User..." />}
-            {!loadingUser && <Stadistics userData={userData} />}
-
+            {/* {!loadingUser && <Stadistics />} */}
             <Header />
-            <>
-              {/* Add question Form for admin user */}
-              {user.username === "admin" && (
-                <PostQuestionForm addQuestion={addQuestion} />
-              )}
-            </>
-
+            {/* Add question Form for admin user */}
+            {user.username === "admin" && <PostQuestionForm />}
             <Main>
-              <>
-                <StartScreen
-                  errorMsg={errorMsg}
-                  status={status}
-                  numQuestions={questions.length}
-                  dispatch={dispatch}
-                  user={user}
-                  userData={userData}
-                />
-              </>
-
+              <StartScreen />
               {/* Quiz Loop */}
               {status === "active" && (
                 <>
-                  <Progress
-                    currQuestion={currQuestion}
-                    numQuestions={questions.length}
-                    score={score}
-                    maxScore={maxScore}
-                    answer={answer}
-                    reviewQuestions={reviewQuestions}
-                  />
-
-                  <Question
-                    currQuestion={questions[currQuestion]}
-                    dispatch={dispatch}
-                    answer={answer}
-                    score={score}
-                  />
-
+                  <Progress />
+                  <Question />
                   <Footer>
-                    <Timer seconds={remainSeconds} dispatch={dispatch} />
+                    <Timer />
                     {answer !== null && (
                       <NextButton dispatch={dispatch} userName={user.username}>
                         {currQuestion + 1 === questions.length
@@ -120,24 +71,8 @@ function App() {
               {/* Review Loop */}
               {status === "review" && (
                 <>
-                  <Progress
-                    currQuestion={currQuestion}
-                    numQuestions={questions.length}
-                    score={score}
-                    maxScore={maxScore}
-                    answer={answer}
-                  />
-
-                  <Question
-                    currQuestion={questions[currQuestion]}
-                    dispatch={dispatch}
-                    answer={answer}
-                    score={score}
-                    reviewQuestions={reviewQuestions}
-                    wrongQuestionIndex={wrongQuestionIndex[currQuestion]}
-                    curOpen={curOpen}
-                  />
-
+                  <Progress />
+                  <Question />
                   <Footer>
                     <div className="finish-buttons">
                       {currQuestion !== 0 ? (
@@ -159,17 +94,11 @@ function App() {
               {/* Finish Screen */}
               {status === "finished" && (
                 <FinishScreen
-                  failedQuestions={failedQuestions}
-                  score={score}
-                  maxScore={maxScore}
-                  dispatch={dispatch}
                   highScore={
                     userData?.maxScore > highScore
                       ? userData.maxScore
                       : highScore
                   }
-                  user={user}
-                  loadingUser={loadingUser}
                 />
               )}
               {status !== "active" && <Credits />}

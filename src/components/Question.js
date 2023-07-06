@@ -2,23 +2,27 @@ import Options from "./Options";
 import Prism from "prismjs";
 import Accordion from "./Accordion";
 import { useEffect } from "react";
+import { useQuiz } from "../context/QuizContext";
 
-function Question({
-  currQuestion,
-  dispatch,
-  answer,
-  score,
-  reviewQuestions = false,
-  wrongQuestionIndex,
-  curOpen,
-}) {
+function Question() {
+  const {
+    currQuestion,
+    dispatch,
+    answer,
+    score,
+    reviewQuestions = false,
+    wrongQuestionIndex,
+    curOpen,
+    questions,
+  } = useQuiz();
+  // wrongQuestionIndex={wrongQuestionIndex[currQuestion]}
   const {
     question,
     options,
     correctOption,
     code,
     answer: reviewAnswer,
-  } = currQuestion;
+  } = questions[currQuestion];
 
   useEffect(() => {
     Prism.highlightAll();

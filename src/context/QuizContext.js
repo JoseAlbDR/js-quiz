@@ -1,8 +1,8 @@
-import { createContext, useReducer } from "react";
+import { createContext, useContext, useReducer } from "react";
 import { API } from "aws-amplify";
 import { createQuestion as createQuestionMutation } from "../graphql/mutations";
 import { updateUser } from "../script/userQueries";
-import Error from "./Error";
+import Error from "../components/Error";
 
 const QuizContext = createContext();
 
@@ -23,6 +23,7 @@ const initialState = {
   curOpen: null,
   userData: {},
   loadingUser: true,
+  totalQuestions: 0,
 };
 
 let initialQuestions;
@@ -37,6 +38,7 @@ function reducer(state, action) {
         ...state,
         questions: action.payload,
         status: "ready",
+        totalQuestions: state.questions.length,
       };
     case "loadUser":
       return {
@@ -188,6 +190,7 @@ function QuizProvider({ children }) {
     curOpen,
     userData,
     loadingUser,
+    totalQuestions,
   } = state;
 
   async function addQuestion(event) {
@@ -214,4 +217,43 @@ function QuizProvider({ children }) {
 
     event.target.reset();
   }
+
+  return (
+    <QuizContext.Provider
+      value={{
+        questions,
+        status,
+        errorMsg,
+        currQuestion,
+        answer,
+        score,
+        highScore,
+        remainSeconds,
+        numQuestions,
+        difficulty,
+        reviewQuestions,
+        failedQuestions,
+        wrongQuestionIndex,
+        curOpen,
+        userData,
+        loadingUser,
+        maxScore,
+        addQuestion,
+        dispatch,
+        totalQuestions,
+      }}
+    >
+      {children}
+    </QuizContext.Provider>
+  );
 }
+
+function useQuiz() {
+  const context = useContext(QuizContext);
+  if (context === undefined) {
+    throw new Error("useQuiz must be used within a QuizProvider");
+  }
+  return context;
+}
+
+export { QuizProvider, useQuiz };

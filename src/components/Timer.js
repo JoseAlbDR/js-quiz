@@ -1,7 +1,9 @@
 import { useEffect } from "react";
+import { useQuiz } from "../context/QuizContext";
 
 // Game Loop Timer
-function Timer({ seconds, dispatch }) {
+function Timer() {
+  const { remainSeconds: seconds, dispatch } = useQuiz();
   const mins = Math.trunc(seconds / 60);
   const secs = seconds % 60;
 
